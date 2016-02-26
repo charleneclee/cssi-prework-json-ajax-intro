@@ -15,45 +15,124 @@ Once you open up a JSON file, you'll quickly see that the file is just a series 
 
 Take this section of the prework as a primer. We will be able to dive more in depth with APIS and JSON at our in person training and your lead instructors will also be able to help you figure some of this out.
 
-Before we get our hands dirty, install the Chrome extension [JSONView](https://github.com/jamiew/jsonview-chrome) and then open this page using a Chrome browser. Now that you've installed the extension, which will just make JSON easier to read, take a look at OpenWeatherMap's data for the weather in New York today here:
+Before we get our hands dirty, install the Chrome extension [JSONView](https://github.com/jamiew/jsonview-chrome) and then open this page using a Chrome browser. Now that you've installed the extension, which will just make JSON easier to read, take a look at OpenWeatherMap's data for the weather in Palo Alto, which in OpenWeatherMap's database had an id of 5380748.
 
 [http://api.openweathermap.org/data/2.5/weather?q=New%20York,us](http://api.openweathermap.org/data/2.5/weather?q=New%20York,us)
 
 The page you opened probably looks something like this:
 
 ```json
-{  
-   "coord":{  
-      "lon":-74.01,
-      "lat":40.71
-   },
-   "weather":[  
-      {  
-         "id":721,
-         "main":"Haze",
-         "description":"haze",
-         "icon":"50d"
-      }
-   ],
-   "id":5128581,
-   "name":"New York",
-   "cod":200,
-   "etc.":"..."
+"coord": {
+  "lon": -122.14,
+  "lat": 37.44
+},
+"weather": [
+{
+  "id": 701,
+  "main": "Mist",
+  "description": "mist",
+  "icon": "50n"
 }
+],
+"base": "stations",
+"main": {
+  "temp": 291.76,
+  "pressure": 1018,
+  "humidity": 72,
+  "temp_min": 287.15,
+  "temp_max": 294.15
+},
+"visibility": 16093,
+"wind": {
+  "speed": 4.1,
+  "deg": 320
+},
+"clouds": {
+  "all": 5
+},
+"dt": 1456454478,
+"sys": {
+  "type": 1,
+  "id": 451,
+  "message": 0.0298,
+  "country": "US",
+  "sunrise": 1456497854,
+  "sunset": 1456538352
+},
+"id": 5380748,
+"name": "Palo Alto",
+"cod": 200
+}
+```
+This is just a giant nested object. For example, to access the wind's speed, we would just need to call weatherData.wind.speed.
+
+But first we need to use jQuery to load and save the JSON object into a variable.
+
+We know how to load jQuery into the console:
+```js
+var jq = document.createElement('script');
+jq.src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js";
+document.getElementsByTagName('head')[0].appendChild(jq);
+```
+Now that jQuery is loaded we'll need to use AJAX to get our JSON data.
+
+##AJAX
+[AJAX](http://stackoverflow.com/a/1510156/2890716) stands for Asynchronous Javascript And Xml. In a nutshell, it allows your browser to send and fetch information to and from APIs without a page refresh. Pretty much, AJAX makes it possible to update parts of a web page, without reloading the whole page.
+
+The first step is to load the data []() here in our browser. To do this, we'll use jQuery's `ajax()` function:
+
+```javascript
+$.ajax({
+  "url":  "http://charts.spotify.com/api/tracks/most_streamed/us/daily/latest",
+  "method": "GET",
+  "dataType": "JSONP"
+}) // we'll add code here in a second
+```
+
+The `ajax()` function accepts an object with three keys
+* url - the source of your JSON file, often from an API
+* method - the type of request (GET or POST for example)
+* dataType - how the data should be returned
+
+While we do want our datatype to be JSON, we're going to specify JSONP. Don't worry too much about this for now, but if you insist on worrying about it, read [this](http://json-jsonp-tutorial.craic.com/index.html).
+
+`.ajax()` will go get our data, but in order to use it, we will have to write instructions for how to parse it. This should only happen once we know we have successfully retrieved it.
+
+For this reason, the  `.success()` method is what we chain onto the return value for this AJAX request. Once we know our data retrieval has been a success, we pass that data as a parameter to the `.success` callback function. You can named the returned data anything you'd like. In this case, we call it weatherData.
+
+But weatherData only exists as the return value inside the .ajax() function. In order to see the object stored inside the weatherData variable, we can assign it a new variable, in this case myWeatherData.
+
+```js
+$.ajax({
+  url:  "http://api.openweathermap.org/data/2.5/weather?id=5380748&appid=44db6a862fba0b067b1930da0d769e98",
+  method: "GET",
+  dataType: "JSON"
+}).success(function(weatherData) {
+  myWeatherData = weatherData;
+});
+```
+
+## Parsing JSON Data
+Now we can parse through myWeatherData just like any other JavaScript object.
+
+Either dot notation or bracket notation can be used to access key names.
+* Dot notation is easier to write
+* Bracket notation allows access to special characters or variables in the key since the key is a "string"
+
+```
+>localData["coord"]["lon"]
+-122.14
+>localData.coord.lat
+37.44
 ```
 
 
-
+##Spotify API
 Here's another example, it's Spotify's data for the most streamed songs in the US today:
 
 [http://charts.spotify.com/api/tracks/most_streamed/us/daily/latest](http://charts.spotify.com/api/tracks/most_streamed/us/daily/latest)
 
 This object that you see on the page linked above is a JSON object. The property `tracks` points to an array of popular songs. The first item in this array is the most streamed song on Spotify today.
-
-## Introduction to AJAX
-
-[AJAX](http://stackoverflow.com/a/1510156/2890716) stands for Asynchronous Javascript And Xml. In a nutshell, it allows your browser to send and fetch information to and from APIs without a page refresh. Pretty much, AJAX makes it possible to update parts of a web page, without reloading the whole page.
-
 
 ## AJAX with Spotify's Chart API
 
@@ -65,45 +144,9 @@ The eventual goal of this section is for you to add the name of the most streame
 * Printing the Song Title to the Console
 * Adding the Song Title to the DOM
 
-#### Making an AJAX Request
 
-The first step is to load the data []() here in our browser. To do this, we'll use jQuery's `ajax()` function:
-
-```javascript
-$.ajax(…) // we'll add code here later
-```
-
-The `ajax()` function accepts an object literal. This object is where you can specify the url, the type of request you're making (post vs get for example), and what kind of datatype you want.
-
-While we do want our datatype to be JSON, we're going to specify JSONP. Don't worry too much about this for now, but if you insist on worrying about it, read [this](http://json-jsonp-tutorial.craic.com/index.html).
-
-Okay, so this is what we have so far:
-
-```javascript
-$.ajax({
-  "url":  "http://charts.spotify.com/api/tracks/most_streamed/us/daily/latest",
-  "method": "GET",
-  "dataType": "JSONP"
-}) // we'll add code here in a second
-```
-
-Now we know that we're going to interact with spotify resource, we'll be making a GET request and hoping to get a JSON object back.
-
-#### Processing the Request's Data
-
-The second step in this process is to use whatever data the request returns. So `.ajax()` will go get our data, but in order to use it, we will have to write instructions for how to parse it. This should only happen once we know we have successfully retrieved it.
-
-For this reason, the  `.success()` method is what we chain onto the return value for this AJAX request.
-
-```javascript
-$.ajax({
-  "url":  "http://charts.spotify.com/api/tracks/most_streamed/us/daily/latest",
-  "method": "GET",
-  "dataType": "JSONP"
-}).success(…);
-```
-The `.success()` takes one argument, another function. That function will be parsing though the returned data, so it should also accept one argument, the name of the data:
-
+### The AJAX Request
+This looks similar to last time, except the url has changed
 ```javascript
 $.ajax({
   "url":  "http://charts.spotify.com/api/tracks/most_streamed/us/daily/latest",

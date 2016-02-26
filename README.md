@@ -141,12 +141,9 @@ This object that you see on the page linked above is a JSON object. The property
 
 ## AJAX with Spotify's Chart API
 
-The eventual goal of this section is for you to add the name of the most streamed song on Spotify to the end of this HTML page. To accomplish this goal, we'll break up the task into these five steps:
+The eventual goal of this section is for you to add the name of the most streamed song on Spotify to the end of this HTML page. To accomplish this goal, we'll break up the task into two steps:
 
 * Making an AJAX Request
-* Processing the Request's Data
-* Printing the Song Object to the Console
-* Printing the Song Title to the Console
 * Adding the Song Title to the DOM
 
 
@@ -216,7 +213,7 @@ for (i in myFabFourData.tracks) {
 }
 ```
 
-As an extra challenge, see if you can link the title of each song so that it plays on Spotify.
+As an stretch challenge, see if you can link the title of each song so that it plays on Spotify.
 
 
 ## Resources

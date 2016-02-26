@@ -68,7 +68,7 @@ This is just a giant nested object. For example, to access the wind's speed, we 
 
 But first we need to use jQuery to load and save the JSON object into a variable.
 
-We know how to load jQuery into the console:
+Open your Javascript condole and  load jQuery into the console:
 ```js
 var jq = document.createElement('script');
 jq.src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js";
@@ -79,7 +79,7 @@ Now that jQuery is loaded we'll need to use AJAX to get our JSON data.
 ##AJAX
 [AJAX](http://stackoverflow.com/a/1510156/2890716) stands for Asynchronous Javascript And Xml. In a nutshell, it allows your browser to send and fetch information to and from APIs without a page refresh. Pretty much, AJAX makes it possible to update parts of a web page, without reloading the whole page.
 
-The first step is to load the data []() here in our browser. To do this, we'll use jQuery's `ajax()` function:
+The first step is to load the data into your browser's console. To do this, we'll use jQuery's `ajax()` function:
 
 ```javascript
 $.ajax({
@@ -89,26 +89,27 @@ $.ajax({
 }) // we'll add code here in a second
 ```
 
-The `ajax()` function accepts an object with three keys
+The `ajax()` function accepts an object as a parameter. This object  has three three keys
 * url - the source of your JSON file, often from an API
 * method - the type of request (GET or POST for example)
 * dataType - how the data should be returned
 
 While we do want our datatype to be JSON, we're going to specify JSONP. Don't worry too much about this for now, but if you insist on worrying about it, read [this](http://json-jsonp-tutorial.craic.com/index.html).
 
-`.ajax()` will go get our data, but in order to use it, we will have to write instructions for how to parse it. This should only happen once we know we have successfully retrieved it.
+`.ajax()` will go get our data, but in order to use it, we will have to write instructions for how to parse it. WE should only parse the object once we know we have successfully retrieved it.For this reason, the  `.success()` method is what we chain onto the return value of this AJAX request.
 
-For this reason, the  `.success()` method is what we chain onto the return value for this AJAX request. Once we know our data retrieval has been a success, we pass that data as a parameter to the `.success` callback function. You can named the returned data anything you'd like. In this case, we call it weatherData.
+Once the `.ajax()` function grabs the JSONP object, we pass that data as a parameter to the `.success` callback function. You can name the returned object anything you'd like. In this case, we'll call it weatherData.
 
 But weatherData only exists as the return value inside the .ajax() function. In order to see the object stored inside the weatherData variable, we can assign it a new variable, in this case myWeatherData.
 
+Copy and paste the code below into your browser's console. The weather data for Palo Alto will be stored in a variable myWeatherData for you to parse.
 ```js
 $.ajax({
   url:  "http://api.openweathermap.org/data/2.5/weather?id=5380748&appid=44db6a862fba0b067b1930da0d769e98",
   method: "GET",
   dataType: "JSON"
-}).success(function(weatherData) {
-  myWeatherData = weatherData;
+}).success(function(weatherData) { //weatherData is the name of the object returned by the AJAX request
+  myWeatherData = weatherData; //assign object to the variable myWeatherData so that we can access it
 });
 ```
 
@@ -124,15 +125,19 @@ Either dot notation or bracket notation can be used to access key names.
 -122.14
 >localData.coord.lat
 37.44
+>myWeatherData["name"]
+"Palo Alto"
+>myWeatherData.main.temp_max
+283.326
 ```
 
 
 ##Spotify API
-Here's another example, it's Spotify's data for the most streamed songs in the US today:
+Spotify has a great API for accessing data about music. You can learn about all the data Spotify will give you in [their API Documentation](https://developer.spotify.com/web-api/endpoint-reference/).  
 
-[http://charts.spotify.com/api/tracks/most_streamed/us/daily/latest](http://charts.spotify.com/api/tracks/most_streamed/us/daily/latest)
+In late 2015, as a Christmas present to the world, the Beatles released their entire catalog to 7 streaming music services including Spotify. Let's see which of their hits have been streamed the most since then. The Beatles Spotify Id is 3WrFJ7ztbogyGnTHbHJFl2. So according to the Spotify API Documentation, we can find data about their top tracks at  [https://api.spotify.com/v1/artists/3WrFJ7ztbogyGnTHbHJFl2/top-tracks?country=US](https://api.spotify.com/v1/artists/3WrFJ7ztbogyGnTHbHJFl2/top-tracks?country=US)
 
-This object that you see on the page linked above is a JSON object. The property `tracks` points to an array of popular songs. The first item in this array is the most streamed song on Spotify today.
+This object that you see on the page linked above is a JSON object. The property `tracks` points to an array of the 10 most popular Beatles songs. The first item in this array is the most streamed Beatles song.
 
 ## AJAX with Spotify's Chart API
 
@@ -149,93 +154,70 @@ The eventual goal of this section is for you to add the name of the most streame
 This looks similar to last time, except the url has changed
 ```javascript
 $.ajax({
-  "url":  "http://charts.spotify.com/api/tracks/most_streamed/us/daily/latest",
-  "method": "GET",
-  "dataType": "JSONP"
-}).success(function(spotifyData) {
-  // we'll code here in a second
-});
-```
-
-#### Printing the Song Object to the Console
-
-When the code block above runs, `spotifyData` will be that big JSON object you see when you visit the chart page (remember, it looks like [this](http://charts.spotify.com/api/tracks/most_streamed/us/daily/latest)). However, we don't want to log this huge amount of data. Let's just log the first track by indexing at 0:
-
-```javascript
-$.ajax({
-  "url":  "http://charts.spotify.com/api/tracks/most_streamed/us/daily/latest",
-  "method": "GET",
-  "dataType": "JSONP"
-}).success(function(spotifyData) {
-  var firstTrack = spotifyData.tracks[0];
-  console.log(firstTrack);
-});
-```
-
-In early July, 2015, this first track looks like this:
-
-```javascript
-{
-  "track_name": "Love Me Like You Do",
-  "artist": "Ellie Goulding",
-  "album": "Fifty Shades of Grey",
-  "etc": "Links to the song, album, and artwork also appear here"
-{
-```
-
-#### Printing the Song Title to the Console
-
-Since we don't want to print all the song's title, not its artist, album, etc. we can use dot notation:
-
-```javascript
-$.ajax({
-  url:  "http://charts.spotify.com/api/tracks/most_streamed/us/daily/latest",
+  url:  "https://api.spotify.com/v1/artists/3WrFJ7ztbogyGnTHbHJFl2/top-tracks?country=US",
   method: "GET",
-  dataType: "JSONP"
-}).success(function(spotifyData) {
-  var firstTrack = spotifyData.tracks[0];
-  var songTitle = firstTrack.track_name;
-  console.log(songTitle);
+  dataType: "JSON"
+}).success(function(beatlesData) {
+  myFabFourData = beatlesData; //
 });
 ```
 
-The first two lines of the `success()` function can be combined into one if you're into that sort of thing:
+Now that we've retrieved and stored the myFabFourData object, take a look at how the tracks are laid out.
 
-```javascript
-$.ajax({
-  url:  "http://charts.spotify.com/api/tracks/most_streamed/us/daily/latest",
-  method: "GET",
-  dataType: "JSONP"
-}).success(function(spotifyData) {
-  var songTitle = spotifyData.tracks[0].track_name;
-  console.log(songTitle);
-});
+For example, as of now, this is what the JSON data looks like for the first track, which we can access by indexing our data object at 0: 'myFabFourData.tracks[0]'. To get the link to track, we could use dot notation to dig one layer deeper: `myFabFourData.tracks[0].href`
+
+```
+"href": "https://api.spotify.com/v1/tracks/6dGnYIeXmHdcikdzNNDMm2",
+"id": "6dGnYIeXmHdcikdzNNDMm2",
+"name": "Here Comes The Sun - Remastered",
+"popularity": 72,
+"etc": "Links to the song, album, and artwork also appear here"
+
 ```
 
-Back in early July 2015, this code logged the following to the console:
-
-```shell
-"Love Me Like You Do"
+We can also see that there are 10 tracks listed from this url
+```js
+>myFabFourData
+Object {tracks: Array[10]}
 ```
 
-Unless Ellie Golding's track stays number one on Spotify for forever, this code should print a different song title for you.
+Finally we know the name of the 10th most popular track is (interestingly enough) Norwegian Wood.
+```js
+>myFabFourData.tracks[9].name
+"Norwegian Wood (This Bird Has Flown) - Remastered"
+
+```
 
 #### Adding the Song Title to the DOM
 
-Non-developers never open the console, or if they do it's by complete accident, so logging this song title to the console will be completely invisible to them. Let's change the `console.log()` function into a jQuery function that will add append text as an H2 to the DOM's `<body>` tag.
+Non-developers never open the console, or if they do it's by complete accident, so parsing the data within the the console will be completely invisible to them.
+
+Instead, we're going to open up the `spotify.html` file and use AJAX to manipulate that page's DOM.
+
+To do this, we need to change our `.success()` function. Using jQuery's `.append()` method, we can easily add text as a '<p>' element to the DOM's `<body>` tag.
 
 ```javascript
 $.ajax({
-  url:  "http://charts.spotify.com/api/tracks/most_streamed/us/daily/latest",
+  url:  "https://api.spotify.com/v1/artists/3WrFJ7ztbogyGnTHbHJFl2/top-tracks?country=US",
   method: "GET",
-  dataType: "JSONP"
+  dataType: "JSON"
 }).success(function(spotifyData) {
-  var songTitle = spotifyData.tracks[0].track_name;
-  $("body").append("<h2> "+ songTitle + "</h2>")
+  var songTitle = spotifyData.tracks[0].name;
+  $("body").append("<p> The Beatles most popular song on Spotify is: "+ songTitle + "<p>")
 });
 ```
 
-Assuming the Spotify Chart API is functional, running the code above from your browser should add some content to the end of this page. Try it out for yourself!
+Assuming the Spotify Chart API is functional, running the code above from your browser should add some content to the end of your page. Try it out for yourself!
+
+As a challenge, add a loop that goes through all of the Beatle's top tracks and prints them.
+```js
+for (i in myFabFourData.tracks) {
+\\your code here
+}
+```
+
+As an extra challenge, see if you can link the title of each song so that it plays on Spotify.
+
 
 ## Resources
 

@@ -3,6 +3,9 @@
 ## Overview
 
 * Introduction to JSON
+* Using AJAX
+* Parsing JSON Data
+* Example with Spotify's API
 * Resources
 
 ## Introduction to JSON
@@ -139,7 +142,7 @@ In late 2015, as a Christmas present to the world, the Beatles released their en
 
 This object that you see on the page linked above is a JSON object. The property `tracks` points to an array of the 10 most popular Beatles songs. The first item in this array is the most streamed Beatles song.
 
-## AJAX with Spotify's Chart API
+### AJAX with Spotify's Chart API
 
 The eventual goal of this section is for you to add the name of the most streamed song on Spotify to the end of this HTML page. To accomplish this goal, we'll break up the task into two steps:
 
@@ -147,7 +150,7 @@ The eventual goal of this section is for you to add the name of the most streame
 * Adding the Song Title to the DOM
 
 
-### The AJAX Request
+### The AJAX Request to Spotify
 This looks similar to last time, except the url has changed
 ```javascript
 $.ajax({
@@ -185,7 +188,7 @@ Finally we know the name of the 10th most popular track is (interestingly enough
 
 ```
 
-#### Adding the Song Title to the DOM
+### Adding the Song Title to the DOM
 
 Non-developers never open the console, or if they do it's by complete accident, so parsing the data within the the console will be completely invisible to them.
 

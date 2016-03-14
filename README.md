@@ -2,11 +2,10 @@
 
 ## Overview
 
-* Introduction to JSON
-* Using AJAX
-* Parsing JSON Data
-* Example with Spotify's API
-* Resources
+* Understand the basics of Javascript Object Notation (JSON)
+* Use AJAX to submit a request to an API
+* Parse JSON Data from an API
+* Get familiar with Spotify's API
 
 ## Introduction to JSON
 
@@ -226,3 +225,5 @@ As a stretch challenge, see if you can link the title of each song so that it pl
 * [Copter Labs - JSON: What It Is and How to Use It](http://www.copterlabs.com/blog/json-what-it-is-how-it-works-how-to-use-it/)
 * [StackOverflow - How Does AJAX Work?](http://stackoverflow.com/questions/1510011/how-does-ajax-work)
 * [jQuery Documentation](http://jquery.com/)
+
+<p data-visibility='hidden'>View <a href='https://learn.co/lessons/cssi-prework-json-ajax-intro'>JSON and Ajax</a> on Learn.co and start learning to code for free.</p>

@@ -10,13 +10,13 @@
 
 ## Introduction to JSON
 
-Most likely, a few of your students will want to use external data in their project, like databases of movies, libraries of otter gifs, or map data from Google. Most data that developers want to access can be delivered via a format called JSON.
+Most likely, a few of your students will want to use external data in their project such as databases of movies, libraries of otter gifs, or map data from Google. Most data that developers want to access can be delivered via a format called JSON.
 
 JSON stands for JavaScript Object Notation and it has become the defacto standard for computer-to-computer communication (APIs). Sites like Flickr, WeatherUnderground, and Spotify expose at least some of their data in a JSON format.
 
 Once you open up a JSON file, you'll quickly see that the file is just a series of nested JavaScript objects. Accessing and modifying these objects uses the same syntax as any Javascript object.
 
-Take this section of the prework as a primer. We will be able to dive more in depth with APIS and JSON at our in person training and your lead instructors will also be able to help you figure some of this out.
+Take this section of the prework as a primer. We will be able to dive more in depth with APIs and JSON at our in person training and your lead instructors will also be able to help you figure some of this out.
 
 Before we get our hands dirty, install the Chrome extension [JSONView](https://github.com/jamiew/jsonview-chrome) and then open this page using a Chrome browser. Now that you've installed the extension, which will just make JSON easier to read, take a look at OpenWeatherMap's data for the weather in Palo Alto, which in OpenWeatherMap's database had an id of 5380748.
 
@@ -92,14 +92,14 @@ $.ajax({
 }) // we'll add code here in a second
 ```
 
-The `ajax()` function accepts an object as a parameter. This object  has three three keys
+The `ajax()` function accepts an object as a parameter. This object has three keys
 * url - the source of your JSON file, often from an API
 * method - the type of request (GET or POST for example)
 * dataType - how the data should be returned
 
 While we do want our datatype to be JSON, we're going to specify JSONP. Don't worry too much about this for now, but if you insist on worrying about it, read [this](http://json-jsonp-tutorial.craic.com/index.html).
 
-`.ajax()` will go get our data, but in order to use it, we will have to write instructions for how to parse it. WE should only parse the object once we know we have successfully retrieved it.For this reason, the  `.success()` method is what we chain onto the return value of this AJAX request.
+`.ajax()` will go get our data, but in order to use it, we will have to write instructions for how to parse it. We should only parse the object once we know we have successfully retrieved it. For this reason, the  `.success()` method is what we chain on to the return value of this AJAX request.
 
 Once the `.ajax()` function grabs the JSONP object, we pass that data as a parameter to the `.success` callback function. You can name the returned object anything you'd like. In this case, we'll call it weatherData.
 
@@ -194,7 +194,7 @@ Non-developers never open the console, or if they do it's by complete accident, 
 
 Instead, we're going to open up the `spotify.html` file and use AJAX to manipulate that page's DOM.
 
-To do this, we need to change our `.success()` function. Using jQuery's `.append()` method, we can easily add text as a '<p>' element to the DOM's `<body>` tag.
+To do this, we need to change our `.success()` function. Using jQuery's `.append()` method, we can easily add text as an '<p>' element to the DOM's `<body>` tag.
 
 ```javascript
 $.ajax({
@@ -216,7 +216,7 @@ for (i in myFabFourData.tracks) {
 }
 ```
 
-As an stretch challenge, see if you can link the title of each song so that it plays on Spotify.
+As a stretch challenge, see if you can link the title of each song so that it plays on Spotify.
 
 
 ## Resources

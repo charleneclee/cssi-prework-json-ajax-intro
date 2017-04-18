@@ -19,7 +19,7 @@ Take this section of the prework as a primer. We will be able to dive more in de
 
 Before we get our hands dirty, install the Chrome extension [JSONView](https://github.com/jamiew/jsonview-chrome) and then open this page using a Chrome browser. Now that you've installed the extension, which will just make JSON easier to read, take a look at OpenWeatherMap's data for the weather in Palo Alto, which in OpenWeatherMap's database had an id of 5380748.
 
-[http://api.openweathermap.org/data/2.5/weather?q=New%20York,us](http://api.openweathermap.org/data/2.5/weather?q=New%20York,us)
+[http://samples.openweathermap.org/data/2.5/weather?q=London,uk](http://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=b1b15e88fa797225412429c1c50c122a1)
 
 The page you opened probably looks something like this:
 
@@ -104,10 +104,11 @@ Once the `.ajax()` function grabs the JSONP object, we pass that data as a param
 
 But weatherData only exists as the return value inside the .ajax() function. In order to see the object stored inside the weatherData variable, we can assign it a new variable, in this case myWeatherData.
 
-Copy and paste the code below into your browser's console. The weather data for Palo Alto will be stored in a variable myWeatherData for you to parse.
+Copy and paste the code below into your browser's console. The weather data for London will be stored in a variable myWeatherData for you to parse.
+
 ```js
 $.ajax({
-  url:  "http://api.openweathermap.org/data/2.5/weather?id=5380748&appid=44db6a862fba0b067b1930da0d769e98",
+  url:  "http://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=b1b15e88fa797225412429c1c50c122a1",
   method: "GET",
   dataType: "JSON"
 }).success(function(weatherData) { //weatherData is the name of the object returned by the AJAX request
@@ -124,13 +125,13 @@ Either dot notation or bracket notation can be used to access key names.
 
 ```
 >localData["coord"]["lon"]
--122.14
+-0.13
 >localData.coord.lat
-37.44
+51.51
 >myWeatherData["name"]
-"Palo Alto"
+"London"
 >myWeatherData.main.temp_max
-283.326
+281.15
 ```
 
 

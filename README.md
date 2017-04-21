@@ -70,7 +70,9 @@ This is just a giant nested object. For example, to access the wind's speed, we 
 
 But first we need to use jQuery to load and save the JSON object into a variable.
 
-Open your Javascript condole and  load jQuery into the console:
+To play with JSONin the console, first create a local 'practice.html' page, or fork/clone this repository and use the HTML page included. Open the HTML page locally on your Chrome browser.
+
+Open your Javascript console (on a new empty page) and  load jQuery into the console:
 ```js
 var jq = document.createElement('script');
 jq.src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js";
@@ -85,7 +87,7 @@ The first step is to load the data into your browser's console. To do this, we'l
 
 ```javascript
 $.ajax({
-  "url":  "http://charts.spotify.com/api/tracks/most_streamed/us/daily/latest",
+  "url":  "https://api.spotify.com/v1/artists/3WrFJ7ztbogyGnTHbHJFl2/top-tracks?country=US",
   "method": "GET",
   "dataType": "JSONP"
 }) // we'll add code here in a second
@@ -135,7 +137,8 @@ Either dot notation or bracket notation can be used to access key names.
 ```
 
 
-##Spotify API
+## Spotify API
+
 Spotify has a great API for accessing data about music. You can learn about all the data Spotify will give you in [their API Documentation](https://developer.spotify.com/web-api/endpoint-reference/).  
 
 In late 2015, as a Christmas present to the world, the Beatles released their entire catalog to 7 streaming music services including Spotify. Let's see which of their hits have been streamed the most since then. The Beatles Spotify Id is 3WrFJ7ztbogyGnTHbHJFl2. So according to the Spotify API Documentation, we can find data about their top tracks at  [https://api.spotify.com/v1/artists/3WrFJ7ztbogyGnTHbHJFl2/top-tracks?country=US](https://api.spotify.com/v1/artists/3WrFJ7ztbogyGnTHbHJFl2/top-tracks?country=US)
